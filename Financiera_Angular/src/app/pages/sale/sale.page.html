@@ -1,0 +1,119 @@
+<div class="container">
+    <h1 style="text-align:center; margin: 3rem;">Ventas</h1>
+
+    <div class="container mt-3 mb-3">
+      <div class="d-flex justify-content-center">
+        <div style="margin-right: 10px;">
+          <input type="date" id="dateFilter" [(ngModel)]="dateSearch" name="dateFilter" class="form-control" required>
+        </div>
+        <button (click)="search()" class="btn btn-primary">
+          Aplicar Filtro
+        </button>
+      </div>
+    </div>
+
+
+    <div  style="width: 100%; padding: 2rem; background-color:white; border-radius: 10px;">
+      <table class="table table-ligth table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Cliente</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Total</th>
+            <th scope="col">Ver Detalle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let venta of dataVenta">
+            <td hidden>{{ venta.id }}</td>
+            <td>{{ venta.nombres }} {{ venta.apellidos }}</td>
+            <td>{{ venta.fecha }}</td>
+            <td>{{ venta.total }}</td>
+            <td hidden>{{ venta.id_cliente }}</td>
+            <td>
+              <a (click)="viewDetail(venta.id, venta.id_cliente, venta.fecha, venta.total)" [attr.data-id]="venta.id" class="elemento-clickeable">
+                Ver Detalle
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <component-card *ngIf="showSubDetail" (closed)="closeCard()" [title]="subDetailTitle">
+        <div class="container" style="text-align: start;">
+          <h4 style="color: black; text-align:center;">Cliente</h4>
+          <br>
+          <br>
+        </div>
+        <div class="row" style="margin-bottom: 3rem;">
+          <div class="col-md-6">
+            <div class="input-label-container" style="display: flex; flex-direction: row; width: 100%; color: black; margin: 5px;">
+              <label style="flex: 1; font-weight: bold; margin-bottom: 5px;">Nombre: </label>
+              <input style="flex: 1; padding: 5px;" [ngModel]="cliente?.nombres"  disabled="true" type="text" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-label-container" style="display: flex; flex-direction: row; width: 100%; color: black; margin: 5px;">
+              <label style="flex: 1; font-weight: bold; margin-bottom: 5px;">Apellidos: </label>
+              <input style="flex: 1; padding: 5px;" [ngModel]="cliente?.apellidos"  disabled="true" type="text" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-label-container" style="display: flex; flex-direction: row; width: 100%; color: black; margin: 5px;">
+              <label style="flex: 1; font-weight: bold; margin-bottom: 5px;">DNI: </label>
+              <input style="flex: 1; padding: 5px;" [ngModel]="cliente?.dni"  disabled="true" type="text" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-label-container" style="display: flex; flex-direction: row; width: 100%; color: black; margin: 5px;">
+              <label style="flex: 1; font-weight: bold; margin-bottom: 5px;">Teléfono: </label>
+              <input style="flex: 1; padding: 5px;" [ngModel]="cliente?.telefono"  disabled="true" type="text" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-label-container" style="display: flex; flex-direction: row; width: 100%; color: black; margin: 5px;">
+              <label style="flex: 1; font-weight: bold; margin-bottom: 5px;">Correo: </label>
+              <input style="flex: 1; padding: 5px;" [ngModel]="cliente?.email"  disabled="true" type="text" />
+            </div>
+          </div>
+        </div>
+
+        <h4>Detail:</h4>
+
+        <div style="width: 100%;">
+          <table class="table table-ligth table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">SubTotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detalle of subDetail; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ detalle.nombre }}</td>
+                <td>{{ 'S/' + detalle.precio }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ 'S/' + detalle.subtotal }}</td>
+              </tr>
+            </tbody>
+
+          </table>
+
+          <div style="display: flex; width: 100%; color: black; margin-top: 4rem;">
+            <label style="flex: 1;">Fecha</label>
+            <input style="flex: 1;" id="dateSubDetail" [(ngModel)]="dateSubDetail" name="dateSubDetail" class="form-control" required [disabled]="fechaSubDetailDisabled">
+            <label style="flex: 1;">Total S/. {{ totalSubDetail }}</label>
+          </div>
+
+
+        </div>
+      </component-card>
+    </div>
+
+</div>
